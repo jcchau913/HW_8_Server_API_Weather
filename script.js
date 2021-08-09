@@ -20,7 +20,16 @@ $(".card-body").append('<p id="temperature"></p>');
 $(".card-body").append('<p id="humidity"></p>');
 $(".card-body").append('<p id="wind-speed"></p>');
 $(".card-body").append('<p id="UV-index"></p>');
+$("#forecast").hide();
 $("#forecast").append('<div class="col-12">');
+$(".col-12").append('<h3 id="forecast_title"></h3>');
+for (x=1; x<=5; x++) {
+    $("#forecast").append('<div id="day' + x + '" class="col-md-2 forecast bg-primary text-white m-2 rounded"></div>');
+    $("#day" + x).append('<p id="date' + x + '" class="mt-3 mb-0 forecast-date"></p>');
+    $("#day" + x).append('<img id="image' + x + '" src="" alt="" title="">');
+    $("#day" + x).append('<p id="temp' + x + '"></p>');
+    $("#day" + x).append('<p id="humidity' + x + '"></p>');
+}
 
 // Read history from local storage
 var history = [];
@@ -107,13 +116,16 @@ $("#search-button").on("click", function(e) {
             }  
             
             // Add 5 Day Forecast
-            $(".col-12").append('<h3>5-Day Forecast</h3>');
+            $("#forecast").show();
+            $("#forecast_title").html("5-Day Forecast");
             for (x=1; x<=5; x++) {
-                $("#forecast").append('<div id="day' + x + '" class="col-md-2 forecast bg-primary text-white m-2 rounded"></div>');
-                $("#day" + x).append('<p class="mt-3 mb-0 forecast-date">' + dateString(x) + '</p>');
-                $("#day" + x).append('<img src="https://openweathermap.org/img/wn/' + response.daily[x].weather[0].icon + '@2x.png" alt="' + response.daily[x].weather[0].description + '" title="' + response.daily[x].weather[0].description + '">');
-                $("#day" + x).append('<p>Temp: ' + Math.round(K_to_F(response.daily[x].temp.max)) + ' &#176F</p>');
-                $("#day" + x).append('<p>Humidity: ' + response.daily[x].humidity + '%</p>');
+        //        $("#day" + x).append('<div id="day' + x + '" class="col-md-2 forecast bg-primary text-white m-2 rounded"></div>');
+                $("#date" + x).html(dateString(x));
+                $("#image" + x).attr("src","https://openweathermap.org/img/wn/" + response.daily[x].weather[0].icon + "@2x.png");
+                $("#image" + x).attr("alt",response.daily[x].weather[0].description);
+                $("#image" + x).attr("title",response.daily[x].weather[0].description);
+                $("#temp" + x).html("Temp: " + Math.round(K_to_F(response.daily[x].temp.max)) + " &#176F");
+                $("#humidity" + x).html("Humidity: " + response.daily[x].humidity + "%");
             }
         });
     });
