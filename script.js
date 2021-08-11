@@ -6,8 +6,9 @@ var APIKey = "166a433c57516f51dfab1f7edaed8413";
 // returns a date string, input parameter adds the number of days to today's date.
 function dateString (day) {
     var today = new Date();
-    var dd = String(today.getDate() + day);
-    var mm = String(today.getMonth() + 1);
+    today.setDate(today.getDate() + day);
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1;
     var yyyy = today.getFullYear();
     return(mm + "/" + dd + "/" + yyyy);
 }
